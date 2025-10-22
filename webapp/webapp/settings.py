@@ -38,18 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'game'
+    'game',
 ]
 
-# CHAT GPT
 ASGI_APPLICATION = 'webapp.asgi.application'
 
-CHANEL_LAYERS = {
-  "default" : {
-    "BACKEND": "channels.layers.InMemoryChannelLayer"
-  }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
 }
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
