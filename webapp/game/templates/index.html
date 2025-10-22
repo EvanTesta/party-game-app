@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Live Updates Demo</h1>
+    <input id="messageInput" placeholder="Type message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <ul id="messages"></ul>
+
+    <script>
+      const socket = new WebSocket(`ws://${window.location.host}/ws/live/`);
+
+      socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const li = document.createElement("li");
+        li.textContent = data.message;
+        document.getElementById("messages").appendChild(li);
+      };
+
+      function sendMessage() {
+        const msg = document.getElementById("messageInput").value;
+        socket.send(JSON.stringify({ message: msg }));
+        document.getElementById("messageInput").value = "";
+      }
+    </script>
+  </body>
+</html>

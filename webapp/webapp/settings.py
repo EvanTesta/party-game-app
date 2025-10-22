@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e12s^gswf&cy%nn%p8131kyo1#poi6ltdg=ty0lbd7i^jj&h0d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,8 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'game'
 ]
+
+# CHAT GPT
+ASGI_APPLICATION = 'webapp.asgi.application'
+
+CHANEL_LAYERS = {
+  "default" : {
+    "BACKEND": "channels.layers.InMemoryChannelLayer"
+  }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
