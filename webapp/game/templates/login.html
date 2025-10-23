@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log In</title>
+</head>
+<body>
+<h2>Enter Your Username and Real Name</h2>
+<input id="Username" type="text" size="100">
+<input id="Real_Name" type="text" size="100">
+<button id="Submit">Submit</button>
+
+<script>
+let UserSocket = new WebSocket('ws://' + window.location.host + '/ws/');
+
+UserSocket.onclose = function(e) {
+    console.error('Log In socket closed unexpectedly');
+};
+
+document.getElementById('Submit').onclick = function() {
+    UserSocket.send(JSON.stringify({'username': get_user_input('Username'), 'real_name': get_user_input('Real_Name')}));
+};
+
+function get_user_input(input){
+  const inputElem = document.getElementById(input);
+  const text = inputElem.value;
+  inputElem.value = '';
+  return text;
+};
+</script>
+</body>
+</html>
