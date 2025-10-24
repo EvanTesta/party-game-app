@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a;  /* Dark background */
+    color: #ff7518;             /* Orange text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    /* ✅ perfectly center vertically */
+    text-align: center;
+    min-height: 85vh;
+  }
+
+  h2 {
+    font-size: 2rem;
+    text-shadow: 2px 2px 5px #000;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  a button {
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    background-color: #ff7518;
+    border: none;
+    border-radius: 10px;
+    color: #1a1a1a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  a button:hover {
+    background-color: #ffa500;
+    transform: scale(1.05);
+  }
+
+  a button:active {
+    transform: scale(0.95);
+  }
+
+  /* ✅ Responsive tweaks for mobile */
+  @media (max-width: 480px) {
+    body {
+      justify-content: center; /* center vertically on phones */
+      padding: 30px 15px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+
+    a button {
+      font-size: 1rem;
+      padding: 12px 20px;
+    }
+  }
+</style>
+
+<h2>🎃 Challenge Result 🎃</h2>
+{% if success %}
+  <p>Challenge Complete!</p>
+{% else %}
+  <p>😢 Ooof buddy 😢</p>
+{% endif %}
+<p>Current Score: {{ current_score }}</p>
+<a href="{% url 'game' %}">
+  <button type="button">Return To Game</button>
+</a>
+
+{% endblock %}
+

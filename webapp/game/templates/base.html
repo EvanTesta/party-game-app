@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Halloween Game{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #ff7518;
+    }
+
+    /* Chat Widget Container */
+    #chat-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    /* Chat button */
+    #chat-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #ff7518;
+        color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 2rem;
+        box-shadow: 2px 2px 8px #000;
+    }
+
+    /* Chat menu */
+    #chat-menu {
+        display: none;
+        flex-direction: column;
+        margin-bottom: 10px;
+        background-color: #262626;
+        border: 2px solid #ff7518;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    #chat-menu button {
+        background-color: #ff7518;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin: 5px 0;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+    }
+
+    #chat-menu button:hover {
+        background-color: #ffa500;
+        transform: scale(1.05);
+    }
+
+    /* Restore button */
+    #restore-chat {
+        display: none;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #ff7518;
+        color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 2rem;
+        box-shadow: 2px 2px 8px #000;
+    }
+</style>
+</head>
+<body>
+        
+{% block content %}{% endblock %}
+
+<div id="chat-widget">
+    <!-- Chat button -->
+    <div id="chat-button">🎃</div>
+
+    <!-- Chat menu -->
+    <div id="chat-menu">
+        <button id="leaderboard-btn">Leaderboard</button>
+        <button id="chat-btn">Chat</button>
+        <button id="game-btn">Game</button>
+        <button id="close-menu">✖</button>
+    </div>
+</div>
+
+<style>
+    #chat-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    #chat-button, #restore-chat {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #ff7518;
+        color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 2rem;
+        box-shadow: 2px 2px 8px #000;
+    }
+
+    #chat-menu {
+        display: none;
+        flex-direction: column;
+        margin-bottom: 10px;
+        background-color: #262626;
+        border: 2px solid #ff7518;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    #chat-menu button {
+        background-color: #ff7518;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin: 5px 0;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+    }
+
+    #chat-menu button:hover {
+        background-color: #ffa500;
+        transform: scale(1.05);
+    }
+</style>
+
+<script>
+const chatButton = document.getElementById('chat-button');
+const chatMenu = document.getElementById('chat-menu');
+
+chatButton.onclick = () => {
+    chatMenu.style.display = 'flex';   // open menu
+    chatButton.style.display = 'none'; // hide main button
+};
+
+document.getElementById('close-menu').onclick = () => {
+    chatMenu.style.display = 'none'; // close menu
+    chatButton.style.display = 'flex'; // show main button again
+};
+
+// Navigation
+document.getElementById('leaderboard-btn').onclick = () => window.location.href = "{% url 'leaderboard' %}";
+document.getElementById('game-btn').onclick = () => window.location.href = "{% url 'game' %}";
+document.getElementById('chat-btn').onclick = () => window.location.href = "{% url 'chat' %}";
+</script>
+
+</body>
+</html>

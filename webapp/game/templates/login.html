@@ -2,30 +2,136 @@
 <html>
 <head>
     <title>Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset and body styling */
+        body {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+            font-family: 'Trebuchet MS', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #ff7518;
+            text-shadow: 2px 2px 4px #000;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        form {
+            background-color: #2b2b2b;
+            padding: 25px 20px;
+            border-radius: 12px;
+            /* box-shadow: 0 0 20px rgba(255, 117, 24, 0.5); */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px; /* ensures form doesn't get too wide on large screens */
+            box-sizing: border-box;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ff7518;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ffa500;
+            box-shadow: 0 0 10px #ff7518;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #ff7518;
+            color: #1a1a1a;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ffa500;
+            box-shadow: 0 0 10px #ff7518;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #ff7518;
+            text-shadow: 1px 1px 2px #000;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            input, button {
+                font-size: 0.95rem;
+            }
+
+            form {
+                padding: 20px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>Enter Your Username and Real Name</h2>
-<input id="Username" type="text" size="100">
-<input id="Real_Name" type="text" size="100">
-<button id="Submit">Submit</button>
+    <h2>Enter Your Username and Real Name</h2>
+    <form>
+        {% csrf_token %}
+        <input id="Username" name="username" type="text" placeholder="Username" required>
+        <input id="Real_Name" name="real_name" type="text" placeholder="Real Name" required>
+        <button id="Submit">Submit</button>
+    </form>
+    <div id="response"></div>
 
-<script>
-let UserSocket = new WebSocket('ws://' + window.location.host + '/ws/');
+    <script>
+        document.getElementById('Submit').onclick = async function(e) {
+            e.preventDefault();
 
-UserSocket.onclose = function(e) {
-    console.error('Log In socket closed unexpectedly');
-};
+            const username = document.getElementById("Username").value;
+            const real_name = document.getElementById("Real_Name").value;
 
-document.getElementById('Submit').onclick = function() {
-    UserSocket.send(JSON.stringify({'username': get_user_input('Username'), 'real_name': get_user_input('Real_Name')}));
-};
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("real_name", real_name);
 
-function get_user_input(input){
-  const inputElem = document.getElementById(input);
-  const text = inputElem.value;
-  inputElem.value = '';
-  return text;
-};
-</script>
+            const response = await fetch("{% url 'submit_user' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            });
+
+            const data = await response.json();
+            document.getElementById("response").innerHTML = data.message;
+
+            if (data.success) {
+                window.location.href = "{% url 'game' %}";
+            }
+        };
+    </script>
 </body>
 </html>
