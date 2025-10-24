@@ -1,5 +1,11 @@
 # party-game-app
-
+This is a game intended to be played at parties. You need 1 laptop and everyone needs a phone. Run the server on the laptop and have people connect to it through their phone.
+Players first select the level of challenge (easy, medium, or hard), and then they are given a challenge. Have a conversation with a stranger. If they complete then they are 
+rewarded points. The player with the most points wins!
+   
+   The flow of the program is as follows: Login -> (select challenge -> challenge -> results) repeat
+   
+   Additional features include a Chat Room and Leaderboard.
 ## Dependencies
 django  
 daphne
